@@ -51,6 +51,29 @@ object List {
 			case Nil => z
 			case Cons(h, t) => foldLeft(t, f(z, h))(f)
 		}
-		
+	
+	def reverse[A](l: List[A]): List[A] = 
+		foldLeft(l, Nil: List[A])((acc, a) => Cons(a, acc))
+
+	def reverse2[A](l: List[A]): List[A] = {
+		def go(ll: List[A], zero: List[A]): List[A] = ll match {
+			case Nil => zero
+			case Cons(h, t) => go(t, Cons(h, zero)) 
+		}
+
+		go(l, Nil: List[A])
+	}		
+
+	def foldLeft2[A, B](l: List[A], z: B)(f: (B, A) => B): B = 
+		foldRight(reverse(l), z)((a, b) => f(b, a))
+
+	def append[A](l1: List[A], l2: List[A]): List[A] = 
+		foldRight(l1, l2)(Cons(_, _))
+
+	def append2[A](l1: List[A], l2: List[A]): List[A] = 
+		foldLeft(reverse(l1), l2)((acc, h) => Cons(h, acc))
+
+	def concatenate[A](l: List[List[A]]): List[A] = 
+		foldLeft(l, Nil: List[A])(append(_, _))
 }
 
