@@ -75,5 +75,31 @@ object List {
 
 	def concatenate[A](l: List[List[A]]): List[A] = 
 		foldLeft(l, Nil: List[A])(append(_, _))
+
+	def add1(xs: List[Int]): List[Int] = 
+		foldRight(xs, Nil: List[Int])((h, acc) => Cons(h + 1, acc))
+	
+	def toStrings(xs: List[Double]): List[String] = 
+		foldRight(xs, Nil: List[String])((h, acc) => Cons(h.toString, acc))
+
+	def map[A, B](as: List[A])(f: A => B): List[B] =
+		foldRight(as, Nil: List[B])((h, acc) => Cons(f(h), acc))	
+
+	def filter[A](as: List[A])(p: A => Boolean): List[A] =
+		foldRight(as, Nil: List[A])((h, acc) => if(p(h)) Cons(h, acc) else acc)			
+
+	def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] =
+		foldRight(as, Nil: List[B])((h, acc) => append(f(h), acc))	
+
+	def filter2[A](as: List[A])(p: A => Boolean): List[A] =
+		flatMap(as)(a => if(p(a)) List(a) else Nil)
+
+	def zipWith[A, B, C](as: List[A], bs: List[B])(f: (A, B) => C): List[C] =
+		(as, bs) match {
+			case (_, Nil) => Nil
+			case (Nil, _) => Nil
+			case (Cons(ah, at), Cons(bh, bt)) => Cons(f(ah, bh), zipWith(at, bt)(f)) 
+		}
+			
 }
 
