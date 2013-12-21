@@ -100,6 +100,14 @@ object List {
 			case (Nil, _) => Nil
 			case (Cons(ah, at), Cons(bh, bt)) => Cons(f(ah, bh), zipWith(at, bt)(f)) 
 		}
-			
+		
+	def hasSubsequence[A](l: List[A], sub: List[A]): Boolean = {
+		def subs(xs: List[A]): List[List[A]] = {
+			(foldRight(xs, (Nil: List[List[A]], length(xs) - 1, xs)) {
+				(h, acc) => ( Cons(init(acc._3), acc._1), acc._2 - 1, init(xs) )
+			})._1
+  		}
+  		length(filter(subs(l))(_ == sub)) >= 1
+	}
 }
 
