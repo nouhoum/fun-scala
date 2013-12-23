@@ -27,15 +27,9 @@ object Tree {
 
 	def fold[A, B](t: Tree[A])(f: A => B)(g : (B, B) => B): B = t match {
 		case Leaf(v) => f(v)
-		case Branch(l, r) => g(fold(l)(f)(g), fold(r)(f)(g))(f)(g) 
+		case Branch(l, r) => g(fold(l)(f)(g), fold(r)(f)(g)) 
 	}
 	
 	def size2[A](t: Tree[A]): Int =
 		fold(t)(a => 1)(_ + _)
-
-
-	def size[A](t: Tree[A]): Int = t match {
-		case Leaf(_) => 1
-		case Branch(l, r) => 1 + size(l) + size(r) 
-	}
 }
