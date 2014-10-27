@@ -1,4 +1,4 @@
-package fun.scala
+package fun.scala.starting
 
 object Fib {
   def fib(n: Int): Int = {
