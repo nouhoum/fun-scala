@@ -31,5 +31,5 @@ object Tree {
   }
 
   def size2[A](t: Tree[A]): Int =
-    fold(t)(a => 1)(_ + _)
+    fold(t)(a => 1)(1 + _ + _)
 }
